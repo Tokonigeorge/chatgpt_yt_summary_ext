@@ -3,7 +3,7 @@
      "version": "0.1.0",
     "description": "Summarize Youtube Videos with ChatGPT",
     "permissions": ["storage", "tabs"],
-    "host_permissions": ["https://*.youtube.com/*"],
+    "host_permissions": ["https://*.youtube.com/*",  "https://chat.openai.com/*"],
     "background": {
       "service_worker": "background.js"
     },
@@ -21,7 +21,7 @@
           "assets/delete.png",
           "assets/save.png"
         ],
-        "matches": ["https://*.youtube.com/*"]
+        "matches": ["https://*.youtube.com/*",  "https://chat.openai.com/*"]
       }
     ],
     "action": {
