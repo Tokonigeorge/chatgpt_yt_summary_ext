@@ -4,7 +4,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         const urlParams = new URLSearchParams(queryParams);
 
         //send a message to the content script
-        chromw.tabs.sendMessage(tabId, {
+        chrome.tabs.sendMessage(tabId, {
             type: 'NEW',
             videoId: urlParams.get('v')
         });
