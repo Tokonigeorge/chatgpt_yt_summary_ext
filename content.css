@@ -1,0 +1,26 @@
+
+.summary-btn {
+    background-color: white;
+    border-radius: 18px;
+    font-size: 14px;
+    color: black;
+    font-family: "Roboto","Arial",sans-serif;
+    font-weight: 500;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    margin-left: 6px;
+    padding: 0 16px;
+    cursor: pointer;
+    transition: background-color 0.5s linear;
+}
+
+.summary-btn img {
+    height: 16px;
+    width: 16px;  
+    margin-left: 4px; 
+}
+
+.summary-btn:hover{
+ background-color: rgba(255,255,255, 0.8)
+}

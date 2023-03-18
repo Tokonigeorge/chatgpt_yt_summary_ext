@@ -17,16 +17,23 @@
         const summarySectionExists = document.getElementsByClassName('summary-section')[0]
         
         if (!summaryBtnExists) {
-           const summaryBtn = document.createElement('img')
-            summaryBtn.src = chrome.runtime.getURL('assets/ext-icon.png')
+            const summaryBtn = document.createElement("div");
+            const summaryText = document.createTextNode("Summarize");
+            const summaryIcon = document.createElement("img");
+            
+            summaryIcon.src = chrome.runtime.getURL('assets/btn-icon.png')
+            
             summaryBtn.className = 'summary-btn'
+            summaryBtn.appendChild(summaryText)
+            summaryBtn.appendChild(summaryIcon)
 
+            
             ytTopRow = document.getElementsByClassName('top-level-buttons')[0]
             ytTopRow?.appendChild(summaryBtn)
 
             summaryBtn.addEventListener('click', () => {
                 console.log('I clicked')
-                summarySectionExists?.textContent = 'Weee'
+                // summarySectionExists?.textContent = 'Weee'
             })
         }
 
@@ -39,8 +46,7 @@
         }
         
     }
-//this is just a hack for now
-    // newVideoLoaded()
+
 
 }
 )();
