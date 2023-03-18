@@ -27,22 +27,22 @@
             summaryBtn.appendChild(summaryText)
             summaryBtn.appendChild(summaryIcon)
 
-            
-            ytTopRow = document.getElementsByClassName('top-level-buttons')[0]
+            ytTopRow = document.querySelector('#menu #top-level-buttons-computed')
             ytTopRow?.appendChild(summaryBtn)
-
-            summaryBtn.addEventListener('click', () => {
+        
+             summaryBtn.addEventListener('click', (e) => {
                 console.log('I clicked')
-                // summarySectionExists?.textContent = 'Weee'
             })
         }
 
         if (!summarySectionExists) {
             const summarySection = document.createElement('div')
+            const summaryText = document.createTextNode("Summarize");
             summarySection.className = 'summary-section'
+            summarySection.appendChild(summaryText)
 
             ytSecondary = document.querySelector('#secondary')
-            ytSecondary.appendChild(summarySection)
+            ytSecondary?.prepend(summarySection)
         }
         
     }
