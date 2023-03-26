@@ -30,7 +30,7 @@
 
             ytTopRow = document.querySelector('#menu #top-level-buttons-computed')
             ytTopRow?.appendChild(summaryBtn)
-        
+        //add a timeout or debounce once it is clicked once
              summaryBtn.addEventListener('click', (e) => {
                 getTranscriptLang()
             })
@@ -39,12 +39,12 @@
         if (!summarySectionExists) {
             const summarySection = document.createElement('div')
             const summaryText = document.createTextNode("Summarize");
-            const summary = document.createElement('p')
+            // const summary = document.createElement('p')
 
             summarySection.className = 'summary-section'
             summarySection.appendChild(summaryText)
-            summarySection.appendChild(summary)
-            summary.innerText = finalSummary
+            // summarySection.appendChild(summary)
+            // summary.innerText = finalSummary
 
             ytSecondary = document.querySelector('#secondary')
             ytSecondary?.prepend(summarySection)
@@ -93,23 +93,25 @@
         const arr = chunkSubstr(p, chunk_size)
         let summary = []
         for (let i = 0; i < arr.length; i++ ) {
-            prompt = i === 0 ? "Summarize this:"+arr[i] : "Summarize this in addition to the previous summary prompt" + arr[i]
-          const turn =  await getSummary(prompt, function(res) {
-              summary.push(res)
-              return res
-          })
-            console.log(turn)
+            prompt = i === 0 ? "Summarize this:" + arr[i] : "Summarize this in addition to the previous summary prompt" + arr[i]
+            
+            const r = await getSummary(prompt)
+            summary.push(r)
         }
-        console.log(summary)
+
        let joined = summary.join(',')
-    //    console.log( summary)
         if (summary.length > 1) {
-           finalSummary = getSummary(joined)
+            finalSummary = await getSummary(joined)
         }
         else {
             finalSummary = summary[0]
         }
-       console.log(finalSummary)
+         const summarySection = document.querySelector('.summary-section')
+            const finalSummaryEl = document.createElement('p')
+
+            summarySection.appendChild(finalSummaryEl)
+            finalSummaryEl.innerText = finalSummary
+
         return finalSummary
         
     }
@@ -139,15 +141,42 @@
     }
     const OPENAI_API_KEY = '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'
     
-    const getSummary = async (prompt, fc) => {
-     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://api.openai.com/v1/completions");
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Bearer " + OPENAI_API_KEY)
+//     const getSummary = async (prompt, fc) => {
+//      var xhr = new XMLHttpRequest();
+//     xhr.open("POST", "https://api.openai.com/v1/completions");
+//     xhr.setRequestHeader("Accept", "application/json");
+//     xhr.setRequestHeader("Content-Type", "application/json");
+//         xhr.setRequestHeader("Authorization", "Bearer " + OPENAI_API_KEY)
+//          var data = {
+//         model: "text-davinci-003",
+//         prompt: "Summarize the following text:" + prompt,
+//         max_tokens: 2048,
+//         // user: "1",
+//         temperature:  0.5,
+//         frequency_penalty: 0.0, 
+//         presence_penalty: 0.0,  
+//         // stop: ["#", ";"]      
+//     }
+//         const body = JSON.stringify(
+//  data
+//         );
+//          let res = ''
+//         xhr.onload = () => {
+   
+//             if (xhr.readyState == 4 && xhr.status == 200) {
+//                 res += JSON.parse(xhr.responseText).choices[0].text
+//                 return fc(res)
+//   } else {
+//     console.log(`Error: ${xhr.status}`);
+//   }
+// };
+//         xhr.send(body);
+//     }
+
+    const getSummary = async (prompt) => {
          var data = {
         model: "text-davinci-003",
-        prompt: "Summarize the following text:" + prompt,
+        prompt: "Summarize the following text:" + prompt.replace(/\\n/g, '').replace(/\n/g, ''),
         max_tokens: 2048,
         // user: "1",
         temperature:  0.5,
@@ -158,17 +187,21 @@
         const body = JSON.stringify(
  data
         );
-         let res = ''
-        xhr.onload = () => {
-   
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                res += JSON.parse(xhr.responseText).choices[0].text
-                fc(res)
-  } else {
-    console.log(`Error: ${xhr.status}`);
-  }
-};
-        xhr.send(body);
+        let ans = await fetch( "https://api.openai.com/v1/completions", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': "application/json",
+                "Authorization": "Bearer " + OPENAI_API_KEY
+            },
+            body: body
+        })
+             .then(response => {
+                 return response.json().then(r => r.choices[0].text)
+             })
+            .catch(error => console.log('Error:', error));
+       
+        return ans
     }
     
     function chunkSubstr(str, size) {
