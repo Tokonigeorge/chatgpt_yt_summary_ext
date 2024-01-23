@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --btn-cream-color: #FDEBC9;
+    --dark-bg-color: #191d21;
+    --purple-color: #DED2F9;
+}
 
 .summary-btn {
     border-radius: 18px;
@@ -11,8 +18,8 @@
     margin-left: 6px;
     padding: 0 16px;
     cursor: pointer;
-    background-color: white;
-    font-family: "Roboto","Arial",sans-serif;
+    background-color: var(--btn-cream-color);
+    font-family: "Raleway",sans-serif;
     transition: background-color 0.2s linear;
 }
 
@@ -34,6 +41,75 @@
     padding: 12px 16px;
     border-radius: 12px;
     margin-bottom: 16px;
-    background-color: #282828f2;
-    font-family: "Roboto","Arial",sans-serif;
+    background-color: var(--dark-bg-color);
+    font-family: "Raleway",sans-serif;
+}
+
+.top-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dot-pulse {
+  width: 10px;
+  height: 10px;
+  animation: dot-pulse 1.5s infinite linear;
+  animation-delay: 0.25s;
+}
+.dot-pulse::before, .dot-pulse::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  box-shadow: 9999px 0 0 -5px;
+  border-radius: 5px;
+  background-color: var(--purple-color);
+  color: var(--purple-color);
+}
+.dot-pulse::before {
+  box-shadow: 9984px 0 0 -5px;
+  animation: dot-pulse-before 1.5s infinite linear;
+  animation-delay: 0s;
+}
+.dot-pulse::after {
+  box-shadow: 10014px 0 0 -5px;
+  animation: dot-pulse-after 1.5s infinite linear;
+  animation-delay: 0.5s;
+}
+
+@keyframes dot-pulse-before {
+  0% {
+    box-shadow: 9984px 0 0 -5px;
+  }
+  30% {
+    box-shadow: 9984px 0 0 2px;
+  }
+  60%, 100% {
+    box-shadow: 9984px 0 0 -5px;
+  }
+}
+@keyframes dot-pulse {
+  0% {
+    box-shadow: 9999px 0 0 -5px;
+  }
+  30% {
+    box-shadow: 9999px 0 0 2px;
+  }
+  60%, 100% {
+    box-shadow: 9999px 0 0 -5px;
+  }
+}
+@keyframes dot-pulse-after {
+  0% {
+    box-shadow: 10014px 0 0 -5px;
+  }
+  30% {
+    box-shadow: 10014px 0 0 2px;
+  }
+  60%, 100% {
+    box-shadow: 10014px 0 0 -5px;
+  }
 }
